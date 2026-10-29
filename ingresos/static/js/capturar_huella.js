@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fpInput.value = data.huella_id;
                 setHuellaState('success', 'Huella registrada correctamente');
             } else {
-                setHuellaState('error', data.error);
+                setHuellaState('error', data.error + '. Haz clic en el ícono para intentar de nuevo');
             }
         } catch {
             setHuellaState('error', 'Error de conexión con el servidor');

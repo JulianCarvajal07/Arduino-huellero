@@ -13,7 +13,7 @@ class Empleado(models.Model):
         db_table = 'empleado'
 
     def __str__(self):
-        return self.usuario.get_full_name() or self.usuario.username
+        return f'{self.nombre} {self.apellidos}'
 
 
 
