@@ -7,7 +7,7 @@
 {% include "opciones.html" %}
 
     <div class="registro-container">
-        <h1 class="registro-title">Ingresa tu Huella</h1>
+        
 
         {% if messages %}
             {% for message in messages %}
@@ -28,47 +28,98 @@
             </div>
         {% endif %}
 
-        <form method="post" novalidate>
-            {% csrf_token %}
+        <div class="container-validacion-huella">
 
-            <div class="form-group">
+            <div class="container-validar">
 
-                <div class="fingerprint-box" id="fingerprintBox" data-state="idle">
-                    <div class="fp-scanner">
-                        <span class="fp-ring fp-ring--1"></span>
-                        <span class="fp-ring fp-ring--2"></span>
+                <h1 class="registro-title">Validar Entrada</h1>
 
-                        <button type="button" class="fingerprint-btn" id="btnCapturarHuella" aria-label="Capturar huella">
-                            <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                                <path d="M12 3.5a8.5 8.5 0 1 1-8.3 6.9"/>
-                                <path d="M12 3.5a8.5 8.5 0 0 1 8 5.5"/>
-                                <path d="M12 6.5a5.5 5.5 0 1 1-5.4 4.6"/>
-                                <path d="M12 6.5a5.5 5.5 0 0 1 5.3 3.6"/>
-                                <path d="M12 9.5a2.5 2.5 0 0 1 2.5 2.5c0 1.9-.5 3.9-1.4 5.7"/>
-                                <path d="M9.6 12a2.5 2.5 0 0 1 .1-.9"/>
-                                <path d="M3.7 12.5c.1 1.8.7 3.5 1.8 5"/>
-                                <path d="M6.6 12.5c-.1 1.1-.4 2.2-.9 3.2"/>
-                                <path d="M17.8 11a5.5 5.5 0 0 1 .2 1.5c0 1.4-.3 2.8-.9 4.1"/>
-                            </svg>
-                            <span class="fp-scanline"></span>
-                        </button>
+                <!-- 1. Agregamos el action apuntando a la vista de entrada -->
+                <form method="post" action="{% url 'registrar_entrada' %}" novalidate>
+                    {% csrf_token %}
 
-                        <span class="fp-badge" id="huellaBadge" aria-hidden="true"></span>
+                    <div class="form-group">
+                        <!-- 2. Modificamos los IDs con "_entrada" para que sean únicos -->
+                        <div class="fingerprint-box" id="fingerprintBox_entrada" data-state="idle">
+                            <div class="fp-scanner">
+                                <span class="fp-ring fp-ring--1"></span>
+                                <span class="fp-ring fp-ring--2"></span>
+
+                                <!-- Asegúrate de que tu JS escuche el click de este botón y envíe el form (o cámbialo a type="submit") -->
+                                <button type="submit" class="fingerprint-btn" id="btnCapturarHuella_entrada" aria-label="Capturar huella entrada">
+                                    <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                        <path d="M12 3.5a8.5 8.5 0 1 1-8.3 6.9"/>
+                                        <path d="M12 3.5a8.5 8.5 0 0 1 8 5.5"/>
+                                        <path d="M12 6.5a5.5 5.5 0 1 1-5.4 4.6"/>
+                                        <path d="M12 6.5a5.5 5.5 0 0 1 5.3 3.6"/>
+                                        <path d="M12 9.5a2.5 2.5 0 0 1 2.5 2.5c0 1.9-.5 3.9-1.4 5.7"/>
+                                        <path d="M9.6 12a2.5 2.5 0 0 1 .1-.9"/>
+                                        <path d="M3.7 12.5c.1 1.8.7 3.5 1.8 5"/>
+                                        <path d="M6.6 12.5c-.1 1.1-.4 2.2-.9 3.2"/>
+                                        <path d="M17.8 11a5.5 5.5 0 0 1 .2 1.5c0 1.4-.3 2.8-.9 4.1"/>
+                                    </svg>
+                                    <span class="fp-scanline"></span>
+                                </button>
+
+                                <span class="fp-badge" id="huellaBadge_entrada" aria-hidden="true"></span>
+                            </div>
+
+                            <p class="fingerprint-title" id="huellaTitle_entrada">Haz clic en el ícono</p>
+                            <p class="fingerprint-status" id="huellaStatus_entrada">luego coloca el dedo para ENTRAR</p>
+
+                            <button type="button" class="fingerprint-retry" id="btnReintentarHuella_entrada" hidden>Reintentar captura</button>
+                        </div>
                     </div>
+                </form>
+            </div>
 
-                    <p class="fingerprint-title" id="huellaTitle">Haz clic en el ícono</p>
-                    <p class="fingerprint-status" id="huellaStatus">luego coloca el dedo sobre el sensor</p>
+            <!-- ========================================== -->
+            <!-- BLOQUE 2: VALIDAR SALIDA                   -->
+            <!-- ========================================== -->
 
-                    <button type="button" class="fingerprint-retry" id="btnReintentarHuella" hidden>Reintentar captura</button>
+            <div class="container-validar">
+                    <h1 class="registro-title">Validar Salida</h1>
+
+                    <!-- 1. Agregamos el action apuntando a la vista de salida -->
+                    <form method="post" action="{% url 'registrar_salida' %}" novalidate>
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <!-- 2. Modificamos los IDs con "_salida" para que sean únicos -->
+                            <div class="fingerprint-box" id="fingerprintBox_salida" data-state="idle">
+                                <div class="fp-scanner">
+                                    <span class="fp-ring fp-ring--1"></span>
+                                    <span class="fp-ring fp-ring--2"></span>
+
+                                    <button type="submit" class="fingerprint-btn" id="btnCapturarHuella_salida" aria-label="Capturar huella salida">
+                                        <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                            <path d="M12 3.5a8.5 8.5 0 1 1-8.3 6.9"/>
+                                            <path d="M12 3.5a8.5 8.5 0 0 1 8 5.5"/>
+                                            <path d="M12 6.5a5.5 5.5 0 1 1-5.4 4.6"/>
+                                            <path d="M12 6.5a5.5 5.5 0 0 1 5.3 3.6"/>
+                                            <path d="M12 9.5a2.5 2.5 0 0 1 2.5 2.5c0 1.9-.5 3.9-1.4 5.7"/>
+                                            <path d="M9.6 12a2.5 2.5 0 0 1 .1-.9"/>
+                                            <path d="M3.7 12.5c.1 1.8.7 3.5 1.8 5"/>
+                                            <path d="M6.6 12.5c-.1 1.1-.4 2.2-.9 3.2"/>
+                                            <path d="M17.8 11a5.5 5.5 0 0 1 .2 1.5c0 1.4-.3 2.8-.9 4.1"/>
+                                        </svg>
+                                        <span class="fp-scanline"></span>
+                                    </button>
+
+                                    <span class="fp-badge" id="huellaBadge_salida" aria-hidden="true"></span>
+                                </div>
+
+                                <p class="fingerprint-title" id="huellaTitle_salida">Haz clic en el ícono</p>
+                                <p class="fingerprint-status" id="huellaStatus_salida">luego coloca el dedo para SALIR</p>
+
+                                <button type="button" class="fingerprint-retry" id="btnReintentarHuella_salida" hidden>Reintentar captura</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <input type="hidden" name="huella_id" id="id_huella_id"
-                    value="{{ form.huella_id.value|default_if_none:'' }}" required>
-                {% if form.huella_id.errors %}
-                    <small class="field-error">{{ form.huella_id.errors.0 }}</small>
-                {% endif %}
-            </div>
-        </form>
+        </div>
     </div>
 {% endblock %}

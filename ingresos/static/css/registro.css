@@ -22,14 +22,14 @@
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     width: 100%;
-    max-width: 420px;
+    max-width: 500px;
 }
 
 .registro-title {
     text-align: center;
     color: #2c3e50;
     font-size: 24px;
-    margin-bottom: 6px;
+    margin-bottom: 15px;
 }
 
 .registro-subtitle {

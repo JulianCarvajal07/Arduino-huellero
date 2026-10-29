@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'gestion_ingresos',
         'USER': 'soporte',
         'PASSWORD': 'N2tgr45psa',
-        'HOST': 'localhost',
+        'HOST': '10.75.55.85',
         'PORT': '5432',
     }
 }
