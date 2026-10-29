@@ -7,7 +7,7 @@
 {% include "opciones.html" %}
 
     <div class="registro-container">
-        <h1 class="registro-title">EMPLEADOS</h1>
+        <h1 class="registro-title">Empleados</h1>
         <p class="registro-subtitle">Esta tabla muestra los empleados registrados.</p>
 
         {% if messages %}
@@ -35,29 +35,23 @@
                         <tr>
                             <th scope="col">C.C</th>
                             <th scope="col">Empleado</th>
+                            <th scope="col">ID R307</th>
                             <th scope="col">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for empleado in empleados %}
                         <tr class="">
-                            <td scope="row">1151967356</td>
-                            <td>Julian Andres Carvajal Tabares</td>
+                            <td scope="row">{{empleado.documento}}</td>
+                            <td>{{empleado.nombre}} {{empleado.apellidos}}</td>
+                            <td>{{empleado.huella_id}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary">
-                                    Button
-                                </button>
-                                
+                                    <i class="bi bi-trash3"></i>
+                                </button>                               
                             </td>
                         </tr>
-                        <tr class="">
-                            <td scope="row">4431343</td>
-                            <td>Diego Claret Carvajal</td>
-                            <td>
-                                <button type="button" class="btn btn-primary">
-                                    Button
-                                </button>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import EmpleadoForm
 from .models import Empleado, Registro
@@ -237,7 +237,35 @@ def registrar_salida(request):
 
 def empleados(request):
 
-    return render(request, "paginas/empleados.html")
+    empleados= Empleado.objects.all()
+
+    contexto = {
+        'empleados': empleados
+    }
+
+    return render(request, "paginas/empleados.html", contexto)
+
+# ==============================================================================
+# ==============================================================================
+
+def auditoria(request):
+
+    registros = Registro.objects.all()
+
+    contexto = {
+        'registros': registros
+    }
+
+    return render(request, "paginas/auditoria.html", contexto)
+
+# ==============================================================================
+# ==============================================================================
+
+def cerrar_sesion(request):
+
+    logout(request)
+    
+    return redirect('inicio_sesion')
 
 
 

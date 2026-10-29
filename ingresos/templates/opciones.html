@@ -1,15 +1,30 @@
 <div class="container-opciones">
 
-    <div class="btn-personalizado">
-        <a href="{% url 'registro' %}" class="nav-link page-transition">Registrar empleado</a>
+    <div class="lista-opciones">
+
+        <div class="btn-personalizado">
+            <a href="{% url 'registro' %}" class="nav-link page-transition">Registrar empleado</a>
+        </div>
+
+        <div class="btn-personalizado">
+            <a href="{% url 'validar_empleado' %}" class="nav-link page-transition">Ingresos / Salidas</a>
+        </div>
+
+        <div class="btn-personalizado">
+            <a href="{% url 'empleados' %}" class="nav-link page-transition">Empleados</a>
+        </div>
+
+        <div class="btn-personalizado">
+            <a href="{% url 'auditoria' %}" class="nav-link page-transition">Auditoria de ingresos</a>
+        </div>
+
     </div>
 
-    <div class="btn-personalizado">
-        <a href="{% url 'validar_empleado' %}" class="nav-link page-transition">Validar empleado</a>
-    </div>
-
-    <div class="btn-personalizado">
-        <a href="{% url 'empleados' %}" class="nav-link page-transition">Empleados</a>
-    </div>
+        <form method="POST" action="{% url 'cerrar_sesion' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">
+                Cerrar Sesión
+            </button>
+        </form>
 
 </div>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% include "opciones.html" %}
+
+    <div class="registro-container">
+        <h1 class="registro-title">Auditoria de Ingresos</h1>
+        <p class="registro-subtitle">Esta tabla muestra los ingresos realizados de los empleados.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="alert error">
+                <strong>Por favor corrige los siguientes errores:</strong>
+                <ul class="error-list">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">C.C</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">hora de ingreso</th>
+                            <th scope="col">hora de salida</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registro in registros %}
+                        <tr>
+                            <td scope="row">{{registro.empleado.documento}}</td>
+                            <td>{{registro.empleado.nombre}} {{registro.empleado.apellidos}}</td>
+                            <td>{{registro.hora_entrada}}</td>
+                            <td>{{registro.hora_salida}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+    </div>
+{% endblock %}

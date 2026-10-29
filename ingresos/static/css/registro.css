@@ -1,21 +1,3 @@
-
-.container-opciones{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    border: 1px black;
-    border-radius: 15px;
-    background-color: white;
-}
-
-.btn {
-    background-color: #11998e !important; 
-    border: #11998e !important;
-}
-
 .registro-container {
     background: #ffffff;
     padding: 36px;
