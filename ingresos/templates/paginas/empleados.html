@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% include "opciones.html" %}
+
+    <div class="registro-container">
+        <h1 class="registro-title">EMPLEADOS</h1>
+        <p class="registro-subtitle"></p>Esta tabla muestra los empleados registrados.
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="alert error">
+                <strong>Por favor corrige los siguientes errores:</strong>
+                <ul class="error-list">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+            <div class="table-responsive">
+                <table class="table table-primary">
+                    <thead>
+                        <tr>
+                            <th scope="col">C.C</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="">
+                            <td scope="row">1151967356</td>
+                            <td>Julian Andres Carvajal Tabares</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">
+                                    Button
+                                </button>
+                                
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td scope="row">4431343</td>
+                            <td>Diego Claret Carvajal</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">
+                                    Button
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+    </div>
+{% endblock %}

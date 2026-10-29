@@ -1,0 +1,141 @@
+
+.container-opciones{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border: 1px black;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.btn {
+    background-color: #11998e !important; 
+    border: #11998e !important;
+}
+
+.registro-container {
+    background: #ffffff;
+    padding: 36px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+}
+
+.registro-title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.registro-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #11998e;
+    box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.15);
+}
+
+.field-help {
+    display: block;
+    margin-top: 5px;
+    color: #95a5a6;
+    font-size: 12px;
+}
+
+.field-error {
+    display: block;
+    margin-top: 5px;
+    color: #c0392b;
+    font-size: 13px;
+}
+
+.btn-registrar {
+    width: 100%;
+    padding: 12px;
+    background: #11998e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-registrar:hover {
+    background: #0d7a72;
+}
+
+.alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.alert.error {
+    background: #fdecea;
+    color: #c0392b;
+    border: 1px solid #f5c6c0;
+}
+
+.alert.success {
+    background: #e8f8ef;
+    color: #27ae60;
+    border: 1px solid #c8ecd6;
+}
+
+.error-list {
+    margin: 8px 0 0 18px;
+    font-size: 13px;
+}
+
+.registro-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.registro-footer a {
+    color: #11998e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.registro-footer a:hover {
+    text-decoration: underline;
+}

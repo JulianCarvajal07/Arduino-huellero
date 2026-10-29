@@ -1,0 +1,31 @@
+# Entorno virtual de Python
+venv/
+.venv/
+env/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+
+# Base de datos SQLite local
+db.sqlite3
+*.sqlite3
+
+# Archivos estáticos generados
+staticfiles/
+
+# Archivos de registro
+*.log
+
+# Configuraciones de editores
+.vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

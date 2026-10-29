@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block scripts %}
+<script src="{% static 'js/capturar_huella.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "opciones.html" %}
+
+    <div class="registro-container">
+        <h1 class="registro-title">Registrar Empleado</h1>
+        <p class="registro-subtitle">Asocia un usuario al sistema</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="alert error">
+                <strong>Por favor corrige los siguientes errores:</strong>
+                <ul class="error-list">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" name="nombre" id="nombre" maxlength="100"
+                    value="{{ form.nombre.value|default_if_none:'' }}" required>
+                {% if form.nombre.errors %}
+                    <small class="field-error">{{ form.nombre.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="apellidos">Apellidos *</label>
+                <input type="text" name="apellidos" id="apellidos" maxlength="100"
+                    value="{{ form.apellidos.value|default_if_none:'' }}" required>
+                {% if form.apellidos.errors %}
+                    <small class="field-error">{{ form.apellidos.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_documento">Documento *</label>
+                <input type="text" name="documento" id="documento" maxlength="20"
+                       placeholder="Ej: 1234567890"
+                       value="{{ form.documento.value|default_if_none:'' }}" required>
+                {% if form.documento.errors %}
+                    <small class="field-error">{{ form.documento.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Huella dactilar *</label>
+
+                <div class="fingerprint-box" id="fingerprintBox" data-state="idle" data-url="{% url 'capturar_huella' %}">
+                    <div class="fp-scanner">
+                        <span class="fp-ring fp-ring--1"></span>
+                        <span class="fp-ring fp-ring--2"></span>
+
+                        <button type="button" class="fingerprint-btn" id="btnCapturarHuella" aria-label="Capturar huella">
+                            <svg class="fingerprint-icon" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                <path d="M12 3.5a8.5 8.5 0 1 1-8.3 6.9"/>
+                                <path d="M12 3.5a8.5 8.5 0 0 1 8 5.5"/>
+                                <path d="M12 6.5a5.5 5.5 0 1 1-5.4 4.6"/>
+                                <path d="M12 6.5a5.5 5.5 0 0 1 5.3 3.6"/>
+                                <path d="M12 9.5a2.5 2.5 0 0 1 2.5 2.5c0 1.9-.5 3.9-1.4 5.7"/>
+                                <path d="M9.6 12a2.5 2.5 0 0 1 .1-.9"/>
+                                <path d="M3.7 12.5c.1 1.8.7 3.5 1.8 5"/>
+                                <path d="M6.6 12.5c-.1 1.1-.4 2.2-.9 3.2"/>
+                                <path d="M17.8 11a5.5 5.5 0 0 1 .2 1.5c0 1.4-.3 2.8-.9 4.1"/>
+                            </svg>
+                            <span class="fp-scanline"></span>
+                        </button>
+
+                        <span class="fp-badge" id="huellaBadge" aria-hidden="true"></span>
+                    </div>
+
+                    <p class="fingerprint-title" id="huellaTitle">Haz clic en el ícono</p>
+                    <p class="fingerprint-status" id="huellaStatus">luego coloca el dedo sobre el sensor</p>
+
+                    <button type="button" class="fingerprint-retry" id="btnReintentarHuella" hidden>Reintentar captura</button>
+                </div>
+
+                <input type="hidden" name="huella_id" id="id_huella_id"
+                    value="{{ form.huella_id.value|default_if_none:'' }}" required>
+                {% if form.huella_id.errors %}
+                    <small class="field-error">{{ form.huella_id.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn-registrar">Registrar empleado</button>
+        </form>
+    </div>
+{% endblock %}
