@@ -172,7 +172,7 @@ def registrar_entrada(request):
             return redirect('validar_empleado')
 
         # 5. Crear el registro oficial con la hora exacta del servidor
-        ahora = timezone.now()
+        ahora = timezone.localtime(timezone.now())
         Registro.objects.create(
             empleado=empleado,
             fecha=hoy,
@@ -218,7 +218,7 @@ def registrar_salida(request):
             return redirect('validar_empleado')
 
         # 2. Regla temporal: La salida no puede ser anterior a la entrada
-        ahora = timezone.now()
+        ahora = timezone.localtime(timezone.now())
         if ahora <= registro_abierto.hora_entrada:
             messages.error(request, 'Inconsistencia de reloj: La hora de salida debe ser posterior a la de entrada.')
             return redirect('validar_empleado')
@@ -270,36 +270,33 @@ def cerrar_sesion(request):
 # ==============================================================================
 # ==============================================================================
 
-def eliminar_empleado(request, empleado_id):
+# 1. Cambiamos el parámetro 'empleado_id' por 'huella_id'
+def eliminar_empleado(request, huella_id):
     """
     Vista para eliminar a un empleado.
-    Requiere un método POST por seguridad (para evitar borrados accidentales al recargar o compartir URLs).
+    Requiere un método POST por seguridad.
     """
     if request.method == 'POST':
-        # 1. Buscamos al empleado en la base de datos
-        empleado = get_object_or_404(Empleado, id=empleado_id)
-        huella_id = empleado.huella_id
+        # 2. Cambiamos la consulta: ahora buscamos por la columna huella_id
+        empleado = get_object_or_404(Empleado, huella_id=huella_id)
+        
+        # Ya no necesitas hacer "huella_id = empleado.huella_id" porque
+        # ya recibes ese número directamente en la función.
 
-        # 2. Enviamos la orden de borrado al sensor Arduino
+        # 3. Enviamos la orden de borrado al sensor Arduino (el resto queda igual)
         resultado_sensor = eliminar_huella(huella_id)
 
-        # 3. Verificamos la respuesta del hardware
+        # 4. Verificamos la respuesta del hardware
         if resultado_sensor['ok']:
-            # Si el hardware borró la huella exitosamente, borramos al empleado de la BD
-            # Nota: Al borrar el empleado, Django borrará automáticamente sus Registros 
-            # de asistencia gracias al 'on_delete=models.CASCADE' que pusiste en tu modelo Registro.
             nombre_empleado = f"{empleado.nombre} {empleado.apellidos}"
             empleado.delete()
             
             messages.success(request, f'Empleado {nombre_empleado} y su huella biométrica fueron eliminados del sistema.')
         else:
-            # Si el cable está desconectado o el Arduino falla, detenemos el borrado
-            # para que la base de datos y el sensor no queden desincronizados.
             error_msg = resultado_sensor.get('error', 'Error desconocido en hardware')
             messages.error(
                 request, 
                 f'No se pudo eliminar al empleado porque falló la conexión con el sensor: {error_msg}'
             )
 
-    # Redirigimos de vuelta a la lista de empleados (ajusta 'lista_empleados' al nombre real de tu url)
     return redirect('empleados')
