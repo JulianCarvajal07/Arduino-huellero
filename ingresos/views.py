@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import EmpleadoForm
@@ -7,7 +7,7 @@ from .models import Empleado, Registro
 from django.utils import timezone
 
 # Huella
-from .serial_huella import capturar_huella, verificar_huella
+from .serial_huella import capturar_huella, verificar_huella, eliminar_huella
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
@@ -267,5 +267,39 @@ def cerrar_sesion(request):
     
     return redirect('inicio_sesion')
 
+# ==============================================================================
+# ==============================================================================
 
+def eliminar_empleado(request, empleado_id):
+    """
+    Vista para eliminar a un empleado.
+    Requiere un método POST por seguridad (para evitar borrados accidentales al recargar o compartir URLs).
+    """
+    if request.method == 'POST':
+        # 1. Buscamos al empleado en la base de datos
+        empleado = get_object_or_404(Empleado, id=empleado_id)
+        huella_id = empleado.huella_id
 
+        # 2. Enviamos la orden de borrado al sensor Arduino
+        resultado_sensor = eliminar_huella(huella_id)
+
+        # 3. Verificamos la respuesta del hardware
+        if resultado_sensor['ok']:
+            # Si el hardware borró la huella exitosamente, borramos al empleado de la BD
+            # Nota: Al borrar el empleado, Django borrará automáticamente sus Registros 
+            # de asistencia gracias al 'on_delete=models.CASCADE' que pusiste en tu modelo Registro.
+            nombre_empleado = f"{empleado.nombre} {empleado.apellidos}"
+            empleado.delete()
+            
+            messages.success(request, f'Empleado {nombre_empleado} y su huella biométrica fueron eliminados del sistema.')
+        else:
+            # Si el cable está desconectado o el Arduino falla, detenemos el borrado
+            # para que la base de datos y el sensor no queden desincronizados.
+            error_msg = resultado_sensor.get('error', 'Error desconocido en hardware')
+            messages.error(
+                request, 
+                f'No se pudo eliminar al empleado porque falló la conexión con el sensor: {error_msg}'
+            )
+
+    # Redirigimos de vuelta a la lista de empleados (ajusta 'lista_empleados' al nombre real de tu url)
+    return redirect('empleados')

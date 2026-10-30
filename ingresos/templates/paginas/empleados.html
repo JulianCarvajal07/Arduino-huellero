@@ -46,9 +46,15 @@
                             <td>{{empleado.nombre}} {{empleado.apellidos}}</td>
                             <td>{{empleado.huella_id}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary">
-                                    <i class="bi bi-trash3"></i>
-                                </button>                               
+                                <!-- 1. onsubmit: Muestra una alerta preguntando si está seguro antes de enviar -->
+                                <form method="post" action="{% url 'eliminar_empleado' empleado.huella_id %}" onsubmit="return confirm('¿Estás seguro de eliminar a {{empleado.nombre}}? Esto borrará su historial de asistencia y su huella del lector.');">
+                                    {% csrf_token %}
+                                    
+                                    <!-- 3. type="submit" para que el botón realmente dispare el formulario -->
+                                    <button type="submit" class="btn btn-danger" aria-label="Eliminar empleado">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>                          
                             </td>
                         </tr>
                         {% endfor %}
